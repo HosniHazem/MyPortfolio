@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile } from '../data/profile';
+---
+
+<Base
+  title={`Page not found — ${profile.name}`}
+  description="That page does not exist."
+  noindex={true}
+>
+  <p class="eyebrow">404</p>
+  <h1>Page not found</h1>
+  <p class="lede">That page does not exist, or it has moved.</p>
+  <ul class="linkrow">
+    <li><a href="/">Home</a></li>
+    <li><a href="/work/">Work</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/search/">Search</a></li>
+  </ul>
+</Base>

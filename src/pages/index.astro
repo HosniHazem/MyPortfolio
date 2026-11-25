@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile, site, links } from '../data/profile';
+import { experience } from '../data/experience';
+import { featured } from '../data/projects';
+
+const current = experience.filter((r) => r.end === null);
+---
+
+<Base title={site.title} description={site.description}>
+  <p class="eyebrow">{profile.role} — {profile.specialism}</p>
+  <h1>{profile.name}</h1>
+  <p class="lede">{profile.summary}</p>
+
+  <ul class="linkrow">
+    {links.map((l) => (
+      <li><a href={l.href} rel={l.href.startsWith('http') ? 'me noopener' : undefined}>{l.label}</a></li>
+    ))}
+  </ul>
+
+  <h2>What I'm working on</h2>
+  {current.map((role) => (
+    <div class="role">
+      <div class="role-head">
+        <h3>{role.title} — {role.company}</h3>
+        <span class="role-period">{role.period}</span>
+      </div>
+      <p>{role.summary}</p>
+      <ul class="tags">{role.stack.slice(0, 8).map((s) => <li>{s}</li>)}</ul>
+    </div>
+  ))}
+  <p style="margin-top:1.5rem"><a href="/work/">Full work history →</a></p>
+
+  <h2>Selected projects</h2>
+  <ul class="cards">
+    {featured.map((p) => (
+      <li class="card">
+        <p class="eyebrow">{p.year}</p>
+        <h3><a href={`/projects/${p.slug}/`}>{p.name}</a></h3>
+        <p>{p.tagline}</p>
+        <ul class="tags">{p.stack.slice(0, 4).map((s) => <li>{s}</li>)}</ul>
+      </li>
+    ))}
+  </ul>
+  <p style="margin-top:1.5rem"><a href="/projects/">All projects →</a></p>
+
+  <h2>Get in touch</h2>
+  <p>{profile.availability}</p>
+  <p><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+</Base>

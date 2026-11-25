@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile } from '../data/profile';
+import { byYear } from '../data/projects';
+import { experience } from '../data/experience';
+
+const title = `Search — ${profile.name}`;
+const description = 'Search across every page on this site.';
+---
+
+<Base title={title} description={description}>
+  <p class="eyebrow">Search</p>
+  <h1>Search</h1>
+  <p class="lede">{description}</p>
+
+  <!-- Pagefind builds its index at compile time; the UI itself needs JavaScript. -->
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <div id="search" data-pagefind-ignore></div>
+
+  <noscript>
+    <p class="note">
+      Search needs JavaScript. Everything it indexes is reachable without it — the full list
+      is below.
+    </p>
+  </noscript>
+
+  <!-- Always rendered, so the content is reachable and crawlable with or without JS. -->
+  <section data-pagefind-ignore>
+    <h2>All pages</h2>
+    <h3>Roles</h3>
+    <ul>
+      {experience.map((r) => (
+        <li><a href={`/work/#${r.slug}`}>{r.company} — {r.title}</a></li>
+      ))}
+    </ul>
+    <h3>Projects</h3>
+    <ul>
+      {byYear.map((p) => (
+        <li><a href={`/projects/${p.slug}/`}>{p.name} — {p.tagline}</a></li>
+      ))}
+    </ul>
+    <h3>Other</h3>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/work/">Work</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+  </section>
+
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof PagefindUI === 'undefined') return;
+      new PagefindUI({ element: '#search', showSubResults: true, showImages: false });
+    });
+  </script>
+</Base>

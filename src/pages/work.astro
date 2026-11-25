@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile } from '../data/profile';
+import { experience } from '../data/experience';
+
+const title = `Work — ${profile.name}`;
+const description =
+  'Four years of full-stack delivery: Storyteller, Overlord Media / ITfacto, Kicom Tunisia '
+  + 'and Smart Skills. Outcomes and stack for each role.';
+
+// Each role as an Organization the person worked for.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: profile.name,
+    hasOccupation: experience.map((r) => ({
+      '@type': 'Occupation',
+      name: r.title,
+      occupationLocation: { '@type': 'Place', name: r.location },
+      hiringOrganization: { '@type': 'Organization', name: r.company },
+    })),
+  },
+};
+---
+
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <p class="eyebrow">Experience</p>
+  <h1>Work</h1>
+  <p class="lede">{description}</p>
+
+  <p class="note">
+    Client work is described at the same level of detail as my CV — outcomes, scale and stack.
+    No internal code, screenshots or client data appear here.
+  </p>
+
+  {experience.map((role) => (
+    <section class="role">
+      <div class="role-head">
+        <h2 id={role.slug}>{role.company}</h2>
+        <span class="role-period">{role.period}</span>
+      </div>
+      <p class="eyebrow" style="margin-top:0.35rem">{role.title} · {role.location}</p>
+      <p>{role.summary}</p>
+      <ul class="points">
+        {role.highlights.map((h) => <li>{h}</li>)}
+      </ul>
+      <ul class="tags">{role.stack.map((s) => <li>{s}</li>)}</ul>
+      {role.link && (
+        <p style="margin-top:0.9rem">
+          <a href={role.link.href} rel="noopener">{role.link.label} →</a>
+        </p>
+      )}
+    </section>
+  ))}
+</Base>

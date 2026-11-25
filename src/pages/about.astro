@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile, skills, education, languages, engagement, links } from '../data/profile';
+
+const title = `About — ${profile.name}`;
+const description =
+  'Background, technical skills, education and languages. Engineering graduate of TEK-UP '
+  + 'University, working in French, English and Arabic.';
+---
+
+<Base title={title} description={description}>
+  <p class="eyebrow">About</p>
+  <h1>About me</h1>
+  <p class="lede">{profile.summary}</p>
+
+  <p>
+    I have worked as the sole developer on several products, which has meant owning the whole
+    path: scoping and negotiating what a first version contains, designing the schema,
+    building it, and then being the person who gets paged when it breaks. A fair share of my
+    work is production operations on systems I did not write — tracing an outage to log
+    rotation, untangling redirect loops, restoring sites after a bad DNS cutover.
+  </p>
+
+  <p>
+    The rest is newer ground: native macOS capture in Swift, LLM extraction pipelines held to
+    a confidence threshold and validated against real documents, and the observability needed
+    to know what those pipelines cost per model.
+  </p>
+
+  <h2>Technical skills</h2>
+  <dl class="facts">
+    {skills.map((group) => (
+      <div>
+        <dt>{group.group}</dt>
+        <dd>{group.items.join(' · ')}</dd>
+      </div>
+    ))}
+  </dl>
+
+  <h2>Education</h2>
+  <dl class="facts">
+    {education.map((e) => (
+      <div>
+        <dt>{e.period}</dt>
+        <dd><strong>{e.qualification}</strong><br />{e.institution}, {e.location}</dd>
+      </div>
+    ))}
+  </dl>
+
+  <h2>Languages</h2>
+  <dl class="facts">
+    {languages.map((l) => (
+      <div><dt>{l.name}</dt><dd>{l.level}</dd></div>
+    ))}
+  </dl>
+
+  <h2>Leadership</h2>
+  <dl class="facts">
+    <div>
+      <dt>{engagement.period}</dt>
+      <dd>
+        <strong>{engagement.role}</strong><br />
+        {engagement.organisation}, {engagement.location}<br />
+        {engagement.detail}
+      </dd>
+    </div>
+  </dl>
+
+  <h2>Elsewhere</h2>
+  <ul class="linkrow">
+    {links.map((l) => (
+      <li><a href={l.href} rel={l.href.startsWith('http') ? 'me noopener' : undefined}>{l.label} — {l.handle}</a></li>
+    ))}
+  </ul>
+</Base>

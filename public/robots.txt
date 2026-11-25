@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hazemhosni-portfolio.netlify.app/sitemap-index.xml
